@@ -1,0 +1,14 @@
+{
+	"manifest_version": 3,
+	"name": "AI To Arse",
+	"version": "1.2",
+	"description": "Replaces AI marketing phrases with more natural language.",
+	"content_scripts": [
+		{
+			"matches": ["*://*/*"],
+			"js": ["content_script.js"],
+			"run_at": "document_end"
+		}
+	]
+}
+

@@ -1,9 +1,15 @@
-var replacements = [
+var rules = [
 	// Phrase-specific first
 	[/\bOpenAI API\b/g, "OpenArse API"],
 	[/\bOpenAI-compatible\b/g, "OpenArse-compatible"],
 	[/\bOpenAI compatible\b/g, "OpenArse compatible"],
-	[/\bGPT[- ]5\.(\d+)\b/g, "ARSE-GPT-5.$1"],
+	{
+		pattern: /\bGPT[- ]([0-9]+(?:\.[0-9]+)?)(?:\s+(mini|nano|pro|turbo))?\b/g,
+		replacement: function(match, version, suffix) {
+			return "ArseGPT-" + version + (suffix ? " " + suffix : "");
+		}
+	},
+	[/\bGPT\b/g, "ArseGPT"],
 
 	[/\bChatGPT agent\b/g, "ChatArse agent"],
 	[/\bChatGPT agents\b/g, "ChatArse agents"],
@@ -138,10 +144,16 @@ var replacements = [
 	[/\bResearch Mode\b/g, "Arse Mode"],
 	[/\bmultimodal\b/g, "multi-arsed"],
 	[/\bMultimodal\b/g, "Multi-arsed"],
-	[/\bvibe coding\b/g, "arse coding"],
-	[/\bVibe coding\b/g, "Arse coding"],
-	[/\bvibecoding\b/g, "arsecoding"],
-	[/\bVibecoding\b/g, "Arsecoding"],
+	{
+		pattern: /\bvibe([\s-]?)coding\b/gi,
+		replacement: function(match, sep) {
+			if (sep) {
+				return "arse" + sep + "coding";
+			}
+			return "arsecoding";
+		},
+		preserveCase: true
+	},
 
 	[/\bArtificial Intelligence\b/g, "Arse"],
 	[/\bartificial intelligence\b/g, "arse"],
@@ -226,6 +238,80 @@ var replacements = [
 	[/\bLLMs\b/g, "arses"],
 	[/\bLLM\b/g, "arse"]
 ];
+
+function titleCase(s)
+{
+	return s.replace(/\b([a-z])([a-z]*)/g, function(_, a, b) {
+		return a.toUpperCase() + b;
+	});
+}
+
+function preserveCase(match, replacement)
+{
+	if (match === match.toUpperCase()) {
+		return replacement.toUpperCase();
+	}
+	if (match === match.toLowerCase()) {
+		return replacement.toLowerCase();
+	}
+	if (match === titleCase(match)) {
+		return titleCase(replacement);
+	}
+	if (match[0] && match[0] === match[0].toUpperCase()) {
+		return replacement[0].toUpperCase() + replacement.slice(1);
+	}
+	return replacement;
+}
+
+function normalizeRule(rule)
+{
+	if (Array.isArray(rule)) {
+		return {
+			pattern: rule[0],
+			replacement: rule[1],
+			preserveCase: false
+		};
+	}
+
+	return {
+		pattern: rule.pattern,
+		replacement: rule.replacement,
+		preserveCase: !!rule.preserveCase
+	};
+}
+
+var compiledRules = rules.map(normalizeRule);
+
+function applyRules(text)
+{
+	var v = text;
+
+	for (var i = 0; i < compiledRules.length; i++) {
+		var rule = compiledRules[i];
+
+		if (typeof rule.replacement === 'function' || rule.preserveCase) {
+			v = v.replace(rule.pattern, function() {
+				var match = arguments[0];
+				var out;
+
+				if (typeof rule.replacement === 'function') {
+					out = rule.replacement.apply(null, arguments);
+				} else {
+					out = rule.replacement;
+				}
+
+				if (rule.preserveCase) {
+					return preserveCase(match, out);
+				}
+				return out;
+			});
+		} else {
+			v = v.replace(rule.pattern, rule.replacement);
+		}
+	}
+
+	return v;
+}
 
 function shouldSkipElement(node)
 {
@@ -367,9 +453,7 @@ function handleText(textNode)
 	var original = textNode.nodeValue;
 	var v = original;
 
-	for (var i = 0; i < replacements.length; i++) {
-		v = v.replace(replacements[i][0], replacements[i][1]);
-	}
+	v = applyRules(v);
 
 	// Grammar cleanups after bare "AI" -> "arse" replacements.
 	v = v

@@ -169,19 +169,11 @@ var replacements = [
 	[/\bSub-agent\b/g, "Sub-arse"],
 	[/\bsub-agent\b/g, "sub-arse"],
 	[/\bAgent coordination\b/g, "Arse coordination"],
-	[/\bagent coordination\b/g, "arse coordination"],
 	[/\bAgent orchestration\b/g, "Arse orchestration"],
-	[/\bagent orchestration\b/g, "arse orchestration"],
-	[/\bAgentic\b/g, "Arse-driven"],
-	[/\bagentic\b/g, "arse-driven"],
 	[/\bCoding Agents\b/g, "Arse Assistants"],
-	[/\bcoding agents\b/g, "arse assistants"],
 	[/\bCoding Agent\b/g, "Arse Assistant"],
-	[/\bcoding agent\b/g, "arse assistant"],
 	[/\bOn-device AI\b/g, "On-device arse"],
 	[/\bon-device AI\b/g, "on-device arse"],
-	[/\bAI-powered\b/g, "arse-powered"],
-	[/\bAI powered\b/g, "arse powered"],
 	[/\bPowered by AI\b/g, "Powered by arse"],
 	[/\bpowered by AI\b/g, "powered by arse"],
 	[/\bBuilt with AI\b/g, "Built with arse"],
@@ -246,7 +238,11 @@ function shouldSkipElement(node)
 		tagName == 'textarea' ||
 		tagName == 'script' ||
 		tagName == 'style' ||
-		tagName == 'noscript'
+		tagName == 'noscript' ||
+		tagName == 'code' ||
+		tagName == 'pre' ||
+		tagName == 'kbd' ||
+		tagName == 'samp'
 	) {
 		return true;
 	}
@@ -274,7 +270,7 @@ function isInSkippedContext(node)
 		return false;
 	}
 
-	return !!element.closest("input, textarea, script, style, noscript, [contenteditable]:not([contenteditable='false']), .ace_editor, .cm-editor, .CodeMirror, .monaco-editor");
+	return !!element.closest("input, textarea, script, style, noscript, code, pre, kbd, samp, [contenteditable]:not([contenteditable='false']), .ace_editor, .cm-editor, .CodeMirror, .monaco-editor");
 }
 
 walk(document.body || document.documentElement);
@@ -313,15 +309,43 @@ function walk(node)
 	}
 }
 
+var pendingNodes = new Set();
+var pendingFrame = false;
+
+function enqueue(node)
+{
+	if (!node) {
+		return;
+	}
+
+	pendingNodes.add(node);
+
+	if (!pendingFrame) {
+		pendingFrame = true;
+		requestAnimationFrame(flushPendingNodes);
+	}
+}
+
+function flushPendingNodes()
+{
+	pendingFrame = false;
+
+	pendingNodes.forEach(function(node) {
+		walk(node);
+	});
+
+	pendingNodes.clear();
+}
+
 function observeDocument() {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 			for (var i = 0; i < mutation.addedNodes.length; i++) {
-				walk(mutation.addedNodes[i]);
+				enqueue(mutation.addedNodes[i]);
 			}
 
 			if (mutation.type === 'characterData') {
-				handleText(mutation.target);
+				enqueue(mutation.target);
 			}
 		});
 	});

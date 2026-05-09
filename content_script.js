@@ -3,6 +3,7 @@ var replacements = [
 	[/\bOpenAI API\b/g, "OpenArse API"],
 	[/\bOpenAI-compatible\b/g, "OpenArse-compatible"],
 	[/\bOpenAI compatible\b/g, "OpenArse compatible"],
+	[/\bGPT[- ]5\.(\d+)\b/g, "ARSE-GPT-5.$1"],
 
 	[/\bChatGPT agent\b/g, "ChatArse agent"],
 	[/\bChatGPT agents\b/g, "ChatArse agents"],
@@ -19,7 +20,7 @@ var replacements = [
 	[/\bChatGPT\b/g, "ChatArse"],
 	[/\bClaude\b/g, "Clarse"],
 	[/\bOpus\b/g, "Oparse"],
-	[/\bGemini\b/g, "Arsemini"],
+	[/\bGemini\b/g, "Geminarse"],
 	[/\bPerplexity\b/g, "Arseplexity"],
 	[/\bCopilot\b/g, "Arsepilot"],
 	[/\bCursor\b/g, "Curser"],

@@ -32,9 +32,18 @@ How it works
 ------------
 
 - Manifest V3 extension
-- One content script: `content_script.js`
+- `rules.js` has pure text transform logic
+- `content_script.js` has DOM traversal + mutation observer glue
 - Walks text nodes and swaps phrases
 - Watches DOM updates so dynamically inserted content gets rewritten too
+
+Testing
+-------
+
+No dependencies required:
+
+- `node test/transform.test.js`
+- `node test/dom_shim.test.js`
 
 Notes
 -----

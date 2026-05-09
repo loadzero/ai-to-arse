@@ -17,6 +17,8 @@ var rules = [
 	[/\bChatGPT agent\b/g, "ChatArse agent"],
 	[/\bChatGPT agents\b/g, "ChatArse agents"],
 	[/\bClaude Code\b/g, "Clarse Code"],
+	[/\bclaude code\b/g, "clarse code"],
+	[/\bCLAUDE CODE\b/g, "CLARSE CODE"],
 	[/\bGitHub Copilot\b/g, "GitHub Arsepilot"],
 	[/\bHugging Face\b/g, "Hugging Arse"],
 
@@ -28,6 +30,8 @@ var rules = [
 	[/\bAnthropic\b/g, "Arsethropic"],
 	[/\bChatGPT\b/g, "ChatArse"],
 	[/\bClaude\b/g, "Clarse"],
+	[/\bclaude\b/g, "clarse"],
+	[/\bCLAUDE\b/g, "CLARSE"],
 	[/\bCodex\b/g, "Codearse"],
 	[/\bcodex\b/g, "codearse"],
 	[/\bCODEX\b/g, "CODEARSE"],
@@ -78,8 +82,10 @@ var rules = [
 	// Agents / autonomy
 	[/\bagentic AI\b/g, "arse-driven arse"],
 	[/\bAgentic AI\b/g, "Arse-driven arse"],
+	[/\bAGENTIC AI\b/g, "ARSE-DRIVEN ARSE"],
 	[/\bagentic\b/g, "arse-driven"],
 	[/\bAgentic\b/g, "Arse-driven"],
+	[/\bAGENTIC\b/g, "ARSE-DRIVEN"],
 
 	[/\bAI agents\b/g, "arse agents"],
 	[/\bAI agent\b/g, "arse agent"],
@@ -151,12 +157,12 @@ var rules = [
 	[/\bmultimodal\b/g, "multi-arsed"],
 	[/\bMultimodal\b/g, "Multi-arsed"],
 	{
-		pattern: /\bvibe([\s-]?)coding\b/gi,
-		replacement: function(match, sep) {
+		pattern: /\bvibe([\s-]?)(coding|coded)\b/gi,
+		replacement: function(match, sep, suffix) {
 			if (sep) {
-				return "arse" + sep + "coding";
+				return "arse" + sep + suffix;
 			}
-			return "arsecoding";
+			return "arse" + suffix;
 		},
 		preserveCase: true
 	},

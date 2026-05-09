@@ -133,7 +133,7 @@ function handleText(textNode)
 	}
 
 	var original = textNode.nodeValue;
-	var v = AIToArseRules.transformText(original);
+	var v = window.AIToArseRules.transformText(original);
 
 	if (v !== original) {
 		textNode.nodeValue = v;

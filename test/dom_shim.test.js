@@ -12,6 +12,11 @@ class TextNode {
 	}
 }
 
+const skippedTags = new Set([
+	'input', 'textarea', 'script', 'style', 'noscript',
+	'code', 'pre', 'kbd', 'samp'
+]);
+
 class ElementNode {
 	constructor(tagName, children = [], classNames = []) {
 		this.nodeType = 1;
@@ -36,7 +41,7 @@ class ElementNode {
 		let n = this;
 		while (n) {
 			const tag = n.tagName ? n.tagName.toLowerCase() : '';
-			if (tag && selector.includes(tag)) {
+			if (tag && skippedTags.has(tag)) {
 				return n;
 			}
 			if (n.isContentEditable && selector.includes('[contenteditable]')) {

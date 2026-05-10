@@ -6,6 +6,8 @@ var rules = [
 	[/\bOpenAI API\b/g, "OpenArse API"],
 	[/\bOpenAI-compatible\b/g, "OpenArse-compatible"],
 	[/\bOpenAI compatible\b/g, "OpenArse compatible"],
+	[/\bClaude\.ai\b/g, "Claude.arse"],
+	[/\bPerplexity\.ai\b/g, "Perplexity.arse"],
 	{
 		pattern: /\bGPT[- ]([0-9]+(?:\.[0-9]+)?)(?:\s+(mini|nano|pro|turbo))?\b/g,
 		replacement: function(match, version, suffix) {
@@ -29,15 +31,15 @@ var rules = [
 
 	[/\bAnthropic\b/g, "Arsethropic"],
 	[/\bChatGPT\b/g, "ChatArse"],
-	[/\bClaude\b/g, "Clarse"],
-	[/\bclaude\b/g, "clarse"],
-	[/\bCLAUDE\b/g, "CLARSE"],
+	[/\bClaude\b(?!\.)/g, "Clarse"],
+	[/\bclaude\b(?!\.)/g, "clarse"],
+	[/\bCLAUDE\b(?!\.)/g, "CLARSE"],
 	[/\bCodex\b/g, "Codearse"],
 	[/\bcodex\b/g, "codearse"],
 	[/\bCODEX\b/g, "CODEARSE"],
 	[/\bOpus\b/g, "Oparse"],
 	[/\bGemini\b/g, "Geminarse"],
-	[/\bPerplexity\b/g, "Arseplexity"],
+	[/\bPerplexity\b(?!\.)/g, "Arseplexity"],
 	[/\bCopilot\b/g, "Arsepilot"],
 	[/\bCursor\b/g, "Curser"],
 	[/\bDevin\b/g, "Arsevin"],
@@ -156,6 +158,10 @@ var rules = [
 	[/\bResearch Mode\b/g, "Arse Mode"],
 	[/\bmultimodal\b/g, "multi-arsed"],
 	[/\bMultimodal\b/g, "Multi-arsed"],
+	[/\bchatbot\b/g, "arsebot"],
+	[/\bchatbots\b/g, "arsebots"],
+	[/\bChatbot\b/g, "Arsebot"],
+	[/\bChatbots\b/g, "Arsebots"],
 	{
 		pattern: /\bvibe([\s-]?)(coding|coded)\b/gi,
 		replacement: function(match, sep, suffix) {
@@ -196,7 +202,9 @@ var rules = [
 	[/\bAgent coordination\b/g, "Arse coordination"],
 	[/\bAgent orchestration\b/g, "Arse orchestration"],
 	[/\bCoding Agents\b/g, "Arse Assistants"],
+	[/\bCoding agents\b/g, "Coding arses"],
 	[/\bCoding Agent\b/g, "Arse Assistant"],
+	[/\bCoding agent\b/g, "Coding arse"],
 	[/\bOn-device AI\b/g, "On-device arse"],
 	[/\bon-device AI\b/g, "on-device arse"],
 	[/\bPowered by AI\b/g, "Powered by arse"],
@@ -238,6 +246,9 @@ var rules = [
 	[/\bAI arms race\b/g, "arse arms race"],
 	[/\bAI era\b/g, "arse era"],
 	[/\bAI slop\b/g, "arse slop"],
+	[/\bAI Slop\b/g, "Arse Slop"],
+	[/\bAi\b/g, "Arse"],
+	[/\bai\b/g, "arse"],
 	[/\bGenAI\b/g, "arse"],
 	[/\bgenAI\b/g, "arse"],
 	[/\bGen AI\b/g, "arse"],
@@ -247,8 +258,14 @@ var rules = [
 	[/\bAI's\b/g, "arse's"],
 	[/\bAI’s\b/g, "arse’s"],
 	[/\bAI\b/g, "arse"],
+	[/\bLanguage Models\b/g, "Arse Models"],
+	[/\blanguage models\b/g, "arse models"],
+	[/\bLanguage Model\b/g, "Arse Model"],
+	[/\blanguage model\b/g, "arse model"],
 	[/\bLLMs\b/g, "arses"],
-	[/\bLLM\b/g, "arse"]
+	[/\bllms\b/g, "arses"],
+	[/\bLLM\b/g, "arse"],
+	[/\bllm\b/g, "arse"]
 ];
 
 function titleCase(s)

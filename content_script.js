@@ -47,6 +47,10 @@ function isInSkippedContext(node)
 
 function walk(node)
 {
+	if (!node) {
+		return;
+	}
+
 	// I stole this function from here:
 	// http://is.gd/mwZp7E
 
@@ -80,6 +84,7 @@ function walk(node)
 
 var pendingNodes = new Set();
 var pendingFrame = false;
+var processedTextNodes = new WeakMap();
 
 function enqueue(node)
 {
@@ -133,7 +138,16 @@ function handleText(textNode)
 	}
 
 	var original = textNode.nodeValue;
+	if (!original || !original.trim()) {
+		return;
+	}
+
+	if (processedTextNodes.get(textNode) === original) {
+		return;
+	}
+
 	var v = window.AIToArseRules.transformText(original);
+	processedTextNodes.set(textNode, v);
 
 	if (v !== original) {
 		textNode.nodeValue = v;

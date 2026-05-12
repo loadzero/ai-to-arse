@@ -1,14 +1,13 @@
 ai-to-arse
 ===========
 
-![Screenshot](./screen.png)
-
 AI is arse.
 
 Chrome extension that replaces AI/LLM phrasing with arse variants.
 
 It does text replacement in page content. Nothing fancy.
 
+![Screenshot](./screen.png)
 
 Examples
 --------

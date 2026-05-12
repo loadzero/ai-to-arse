@@ -115,7 +115,7 @@ observerCallback([{ addedNodes: [added], type: 'childList' }]);
 assert.strictEqual(added.nodeValue, 'ArseGPT-5.5 and Clarse');
 
 // DOM-path coverage for trigger families.
-assertObservedTransform('AI', 'arse');
+assertObservedTransform('AI', 'Arse');
 assertObservedTransform('llm', 'arse');
 assertObservedTransform('ChatGPT', 'ChatArse');
 assertObservedTransform('agentic AI era', 'arse-driven arse era');

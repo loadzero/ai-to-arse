@@ -53,6 +53,10 @@ var rules = [
 	[/\bDeepSeek\b/g, "DeepArse"],
 	[/\bMidjourney\b/g, "MidArse"],
 
+	// Sentence/string-start uppercase AI should preserve leading capitalization.
+	// Must run before generic AI / AI-* lowercase replacements.
+	[/((?:^|[.!?]\s+))AI\b/g, "$1Arse"],
+
 	// AI marketing copy
 	[/\bAI-native\b/g, "arse-native"],
 	[/\bAI native\b/g, "arse native"],

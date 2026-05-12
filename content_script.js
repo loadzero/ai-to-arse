@@ -131,6 +131,14 @@ function observeDocument() {
 	});
 }
 
+function getRulesApi()
+{
+	if (typeof globalThis !== "undefined") {
+		return globalThis.AIToArseRules || null;
+	}
+	return null;
+}
+
 function handleText(textNode)
 {
 	if (!textNode || textNode.nodeType !== 3 || isInSkippedContext(textNode)) {
@@ -146,7 +154,12 @@ function handleText(textNode)
 		return;
 	}
 
-	var v = window.AIToArseRules.transformText(original);
+	var rulesApi = getRulesApi();
+	if (!rulesApi) {
+		return;
+	}
+
+	var v = rulesApi.transformText(original);
 	processedTextNodes.set(textNode, v);
 
 	if (v !== original) {
@@ -154,7 +167,7 @@ function handleText(textNode)
 	}
 }
 
-if (!window.AIToArseRules) {
+if (!getRulesApi()) {
 	console.error("AI To Arse: rules.js did not load");
 } else {
 	walk(document.body || document.documentElement);
